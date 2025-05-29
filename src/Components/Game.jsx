@@ -3,42 +3,42 @@ import CardContainer from "./CardContainer";
 
 const Game = () => {
     const [score, setScore] = useState(0);
-    const [highScore, setHighScore] = useState(0);
-    const [currentCards, setCurrentCards] = useState([]);
+    const [bestScore, setBestScore] = useState(0);
+    const [clickedCards, setClickedCards] = useState([]);
+    const [cards, setCards] = useState([1, 2, 3, 4, 5]);
 
-    const updateCurrentCards = (card) => {
-        if (currentCards.indexOf(card) === -1) {
-            setCurrentCards([...currentCards, card]);
-        } else {
-            setCurrentCards([]);
+    async function fetchImages() {
+
+    }
+
+    const shuffleCards = () => {
+        console.log('hello')
+        setCards(cards.sort(() => Math.random() > 0.5 ? -1 : 1));
+    }
+
+    const handleCardClick = (id) => {
+        if (clickedCards.includes(id)) {
+            // Game over
+            if (score > bestScore) setBestScore(score);
             setScore(0);
+            setClickedCards([]);
+            fetchImages();
+        } else {
+            const newClicked = [...clickedCards, id];
+            setClickedCards(newClicked);
+            setScore(score + 1);
+            setCards(shuffleCards(cards));
         }
     }
 
-    useEffect(() => {
-        if (currentCards.length === 0) {
-            setScore(0);
-        } else {
-            setScore(score + 1);
-        }
-    }, [currentCards]);
-
-    useEffect(() => {
-        if (score > highScore) {
-            setHighScore(score);
-        }
-    }, [score]);
-
     return (
-        <div>
+        <div className="game">
             Game Components
-            <br />
-            score: {score}
-            <br />
-            High Score: {highScore}
-            <CardContainer
-                updateCurrentCards={updateCurrentCards}
-            />
+            <div className="scoreboard">
+                <p>Score: {score}</p>
+                <p>Best Score: {bestScore}</p>
+            </div>
+            <CardContainer cards={cards} onCardClick={handleCardClick} />
         </div>
     )
 }

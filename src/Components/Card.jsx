@@ -1,15 +1,10 @@
 import React from "react";
 
-const Card = ({card, randomCardOrder, updateCurrentCards}) => {
-    const checkCard = () => {
-        randomCardOrder();
-        updateCurrentCards(card);
-    }
+const Card = ({ card, onCardClick }) => {
 
     return (
-        <div onClick={checkCard}>
-            {card}
-            <br />
+        <div className="card" onClick={() => onCardClick(card.id)}>
+            {/* {card} */}
         </div>
     )
 }
