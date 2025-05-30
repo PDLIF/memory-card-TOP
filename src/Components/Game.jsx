@@ -13,12 +13,19 @@ const Game = () => {
 
     async function fetchImages() {
         try {
-            const response = await fetch('http://picsum.photos/v2/list?limit=5');
+            const response = await fetch('https://pokeapi.co/api/v2/pokemon?limit=5');
             const data = await response.json();
-            const formatted = data.map((item) => ({
-                id: item.id,
-                image: item.download_url,
-            }));
+            const formatted = await Promise.all(
+                data.results.map(async (pokemon) => {
+                    const res = await fetch(pokemon.url);
+                    const details = await res.json();
+                    return {
+                        id: details.id,
+                        name: details.name,
+                        image: details.sprites.front_default,
+                    }
+                })
+            );
             shuffleCards(formatted);
         } catch (error) {
             console.error('Failed to fetch images:', error);
