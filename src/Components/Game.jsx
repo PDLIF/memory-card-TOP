@@ -5,10 +5,24 @@ const Game = () => {
     const [score, setScore] = useState(0);
     const [bestScore, setBestScore] = useState(0);
     const [clickedCards, setClickedCards] = useState([]);
-    const [cards, setCards] = useState([1, 2, 3, 4, 5]);
+    const [cards, setCards] = useState([]);
+
+    useEffect(() => {
+        fetchImages();
+    }, []);
 
     async function fetchImages() {
-
+        try {
+            const response = await fetch('http://picsum.photos/v2/list?limit=5');
+            const data = await response.json();
+            const formatted = data.map((item) => ({
+                id: item.id,
+                image: item.download_url,
+            }));
+            shuffleCards(formatted);
+        } catch (error) {
+            console.error('Failed to fetch images:', error);
+        }
     }
 
     const shuffleCards = () => {
