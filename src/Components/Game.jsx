@@ -27,7 +27,7 @@ const Game = () => {
             const newClicked = [...clickedCards, id];
             setClickedCards(newClicked);
             setScore(score + 1);
-            setCards(shuffleCards(cards));
+            shuffleCards(cards);
         }
     }
 
