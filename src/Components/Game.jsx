@@ -1,5 +1,8 @@
 import React, {useState, useEffect} from "react";
 import CardContainer from "./CardContainer";
+import ScoreBoard from "./ScoreBoard";
+
+import '../style/Game.css';
 
 const Game = () => {
     const [score, setScore] = useState(0);
@@ -76,10 +79,7 @@ const Game = () => {
     return (
         <div className="game">
             Game Components
-            <div className="scoreboard">
-                <p>Score: {score}</p>
-                <p>Best Score: {bestScore}</p>
-            </div>
+            <ScoreBoard score={score} bestScore={bestScore} />
             <CardContainer cards={cards} onCardClick={handleCardClick} />
         </div>
     )
