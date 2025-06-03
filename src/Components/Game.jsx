@@ -8,33 +8,40 @@ const Game = () => {
     const [cards, setCards] = useState([]);
 
     useEffect(() => {
+        async function fetchImages() {
+            try {
+                const API_KEY = 'sk-cC3s683983ea57eac10757';
+                const plantNames = ["Daisy", "Lily", "Tulip", "Lavender", "Poppy"];
+    
+                const plantPromises = plantNames.map(name => 
+                    fetch(`https://perenual.com/api/species-list?key=${API_KEY}&q=${encodeURIComponent(name)}`)
+                    .then(response => response.json())
+                );
+    
+                const plantResponses = await Promise.all(plantPromises);
+          
+                const formatted = plantResponses
+                    .map(response => response.data[0])
+                    // .filter((plant) => plant.default_image?.regular_url) // filter out those without images
+                    // .slice(0, 5)
+                    .map((plant) => ({
+                        id: plant.id,
+                        name: plant.common_name || plant.scientific_name[0],
+                        image: plant.default_image.regular_url,
+                    }));
+                    console.log(formatted)
+                    setCards(formatted);
+            } catch (error) {
+                console.error('Failed to fetch plant data:', error);
+            }
+        }
+        
         fetchImages();
     }, []);
 
-    async function fetchImages() {
-        try {
-            const response = await fetch('https://pokeapi.co/api/v2/pokemon?limit=5');
-            const data = await response.json();
-            const formatted = await Promise.all(
-                data.results.map(async (pokemon) => {
-                    const res = await fetch(pokemon.url);
-                    const details = await res.json();
-                    return {
-                        id: details.id,
-                        name: details.name,
-                        image: details.sprites.front_default,
-                    }
-                })
-            );
-            shuffleCards(formatted);
-        } catch (error) {
-            console.error('Failed to fetch images:', error);
-        }
-    }
-
-    const shuffleCards = () => {
-        console.log('hello')
-        setCards(cards.sort(() => Math.random() > 0.5 ? -1 : 1));
+    const shuffleCards = (cardsToShuffle) => {
+        const shuffled = cardsToShuffle.sort(() => Math.random() > 0.5 ? -1 : 1);
+        setCards(shuffled);
     }
 
     const handleCardClick = (id) => {

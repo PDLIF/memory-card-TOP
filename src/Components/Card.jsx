@@ -4,7 +4,8 @@ const Card = ({ card, onCardClick }) => {
 
     return (
         <div className="card" onClick={() => onCardClick(card)}>
-            {card.image}
+            <img src={card.image} alt="" />
+            <p>{card.name}</p>
         </div>
     )
 }
