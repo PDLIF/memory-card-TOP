@@ -10,6 +10,8 @@ const Game = () => {
     const [clickedCards, setClickedCards] = useState([]);
     const [cards, setCards] = useState([]);
 
+    const [isGameOver, setIsGameOver] = useState(false);
+
     useEffect(() => {
         async function fetchImages() {
             try {
@@ -49,32 +51,28 @@ const Game = () => {
         // fetchImages();
     }
 
-    if (clickedCards.length === cards.length && clickedCards.length !== 0) {
-        setBestScore(cards.length);
-        alert("You win!");
-        resetGame();
-        return;
-    }
-
-
     const shuffleCards = (cardsToShuffle) => {
         const shuffled = cardsToShuffle.sort(() => Math.random() > 0.5 ? -1 : 1);
         setCards(shuffled);
     }
 
     const handleCardClick = (id) => {
+
+        const newClicked = [...clickedCards, id];
+        setClickedCards(newClicked);
+        setScore(score + 1);
+        shuffleCards(cards);
+
         if (clickedCards.includes(id)) {
-            // Game over
             if (score > bestScore) setBestScore(score);
             resetGame();
             alert('You lose')
-            // fetchImages();
-        } else {
-            const newClicked = [...clickedCards, id];
-            setClickedCards(newClicked);
-            setScore(score + 1);
-            shuffleCards(cards);
         }
+        if (newClicked.length === cards.length && clickedCards.length !== 0) {
+            setBestScore(cards.length);
+            alert("You win!");
+            resetGame();
+        } 
     }
 
     return (
