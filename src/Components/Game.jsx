@@ -13,7 +13,6 @@ const Game = () => {
     useEffect(() => {
         async function fetchImages() {
             try {
-                // const breedNames = ["akita", "golden retriever", "chow", "corgi", "airedale"];
                 const breedMap = {
                     "Akita": "akita",
                     "Golden Retriever": "retriever/golden",
@@ -80,7 +79,7 @@ const Game = () => {
 
     return (
         <div className="game">
-            Memory Game
+            <h1>Dog Memory Game</h1>
             <ScoreBoard score={score} bestScore={bestScore} />
             <CardContainer cards={cards} onCardClick={handleCardClick} />
         </div>

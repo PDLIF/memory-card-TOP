@@ -1,9 +1,12 @@
 .card {
+    position: relative;
     display: flex;
     flex-direction: column;
     align-items: center;
     
-    border: 3px solid rgb(177, 207, 234);
+    border: 6px solid transparent;
+    transition: border 0.3s ease; /* Smooth hover effect */
+
     border-radius: 1rem;
     overflow: hidden;
     
@@ -11,24 +14,33 @@
     height:fit-content;
 
     cursor: pointer;
+
+    z-index: 1045;
 }
 
 .card:hover {
-    background-color: rgb(223, 236, 248);
-    border: 3px solid rgb(118, 184, 241);
-}
-
-.card:active {
-    background-color: rgb(220, 236, 249);
+    border: 2px solid #3eba42;
 }
 
 .card > img {
     width: 100%;
     height: 140px;
     object-fit: cover;
+
+    z-index: 100;
 }
 
 .card > p {
+    position: absolute;
+
+    bottom: 0%;
+
+    text-align: center;
     padding: 0;
     margin: 0;
+
+    background-color: hsla(216 100% 2.8% / 0.5);
+    width: 100%;
+
+    z-index: 101;
 }
