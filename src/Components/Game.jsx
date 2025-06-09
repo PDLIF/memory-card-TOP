@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from "react";
 import CardContainer from "./CardContainer";
 import ScoreBoard from "./ScoreBoard";
+import EndgameMessage from "./EndGameMessage";
 
 import '../style/Game.css';
 
@@ -10,45 +11,55 @@ const Game = () => {
     const [clickedCards, setClickedCards] = useState([]);
     const [cards, setCards] = useState([]);
 
+    const [roundsWon, setRoundsWon] = useState(0);
+
     const [isGameOver, setIsGameOver] = useState(false);
+    const [isWin, setIsWin] = useState(false);
 
     useEffect(() => {
-        async function fetchImages() {
-            try {
-                const breedMap = {
-                    "Akita": "akita",
-                    "Golden Retriever": "retriever/golden",
-                    "Chow": "chow",
-                    "Corgi": "corgi",
-                    "Airedale": "airedale",
-                }
-                const breedNames = Object.keys(breedMap);
-                const imagePromises = breedNames.map(async (breed) => {
-                    const path = breedMap[breed];
-                    console.log(path)
-                    const res = await fetch(`https://dog.ceo/api/breed/${path}/images/random`);
-                    const data = await res.json();
-                    return {
-                        id: breed,
-                        name: breed,
-                        image: data.message,
-                    };
-                });
-                const dogCards = await Promise.all(imagePromises);
-                setCards(dogCards);
-            } catch (error) {
-                console.error('Failed to fetch plant data:', error);
-            }
-        }
-        
         fetchImages();
     }, []);
+
+    async function fetchImages() {
+        try {
+            const breedMap = {
+                "Akita": "akita",
+                "Golden Retriever": "retriever/golden",
+                "Chow": "chow",
+                "Corgi": "corgi",
+                "Airedale": "airedale",
+            }
+            const breedNames = Object.keys(breedMap);
+            const imagePromises = breedNames.map(async (breed) => {
+                const path = breedMap[breed];
+                console.log(path)
+                const res = await fetch(`https://dog.ceo/api/breed/${path}/images/random`);
+                const data = await res.json();
+                return {
+                    id: breed,
+                    name: breed,
+                    image: data.message,
+                };
+            });
+            const dogCards = await Promise.all(imagePromises);
+            setCards(dogCards);
+        } catch (error) {
+            console.error('Failed to fetch plant data:', error);
+        }
+    }
     
     const resetGame = () => {
         setScore(0);
         setClickedCards([]);
-        // setCards([1, 2, 3, 4, 5]);
-        // fetchImages();
+        fetchImages();
+    }
+
+    const restartGame = () => {
+        setIsGameOver(false)
+        setScore(0);
+        setBestScore(0);
+        setClickedCards(0);
+        fetchImages();
     }
 
     const shuffleCards = (cardsToShuffle) => {
@@ -65,21 +76,31 @@ const Game = () => {
 
         if (clickedCards.includes(id)) {
             if (score > bestScore) setBestScore(score);
+            setIsGameOver(true);
+            setIsWin(false)
             resetGame();
-            alert('You lose')
         }
         if (newClicked.length === cards.length && clickedCards.length !== 0) {
             setBestScore(cards.length);
-            alert("You win!");
+            setRoundsWon(roundsWon + 1);
             resetGame();
         } 
+        if (roundsWon + 1 === 5) {
+            setIsGameOver(true);
+            setIsWin(true);
+        }
     }
 
     return (
         <div className="game">
             <h1>Dog Memory Game</h1>
             <ScoreBoard score={score} bestScore={bestScore} />
+            <h2>{roundsWon} / 5</h2>
             <CardContainer cards={cards} onCardClick={handleCardClick} />
+            {/* <button onClick={restartGame}>asd</button> */}
+            {isGameOver && (
+                <EndgameMessage isWin={isWin} restartGame={restartGame} />
+            )}
         </div>
     )
 }
