@@ -1,21 +1,34 @@
 .card {
     display: flex;
-    justify-content: center;
+    flex-direction: column;
     align-items: center;
     
-    border: 1px solid;
+    border: 3px solid rgb(177, 207, 234);
     border-radius: 1rem;
+    overflow: hidden;
     
-    width: 5rem;
-    height: 5rem;
+    width: 10rem;
+    height:fit-content;
 
     cursor: pointer;
 }
 
 .card:hover {
-    background-color: aliceblue;
+    background-color: rgb(223, 236, 248);
+    border: 3px solid rgb(118, 184, 241);
 }
 
 .card:active {
     background-color: rgb(220, 236, 249);
+}
+
+.card > img {
+    width: 100%;
+    height: 140px;
+    object-fit: cover;
+}
+
+.card > p {
+    padding: 0;
+    margin: 0;
 }

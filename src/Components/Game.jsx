@@ -8,47 +8,49 @@ const Game = () => {
     const [score, setScore] = useState(0);
     const [bestScore, setBestScore] = useState(0);
     const [clickedCards, setClickedCards] = useState([]);
-    const [cards, setCards] = useState([1, 2, 3, 4, 5]);
+    const [cards, setCards] = useState([]);
 
-    // useEffect(() => {
-    //     async function fetchImages() {
-    //         try {
-    //             const API_KEY = 'sk-cC3s683983ea57eac10757';
-    //             const plantNames = ["Daisy", "Lily", "Tulip", "Lavender", "Poppy"];
-    
-    //             const plantPromises = plantNames.map(name => 
-    //                 fetch(`https://perenual.com/api/species-list?key=${API_KEY}&q=${encodeURIComponent(name)}`)
-    //                 .then(response => response.json())
-    //             );
-    
-    //             const plantResponses = await Promise.all(plantPromises);
-          
-    //             const formatted = plantResponses
-    //                 .map(response => response.data[0])
-    //                 // .filter((plant) => plant.default_image?.regular_url) // filter out those without images
-    //                 // .slice(0, 5)
-    //                 .map((plant) => ({
-    //                     id: plant.id,
-    //                     name: plant.common_name || plant.scientific_name[0],
-    //                     image: plant.default_image.regular_url,
-    //                 }));
-    //                 console.log(formatted)
-    //                 setCards(formatted);
-    //         } catch (error) {
-    //             console.error('Failed to fetch plant data:', error);
-    //         }
-    //     }
+    useEffect(() => {
+        async function fetchImages() {
+            try {
+                // const breedNames = ["akita", "golden retriever", "chow", "corgi", "airedale"];
+                const breedMap = {
+                    "Akita": "akita",
+                    "Golden Retriever": "retriever/golden",
+                    "Chow": "chow",
+                    "Corgi": "corgi",
+                    "Airedale": "airedale",
+                }
+                const breedNames = Object.keys(breedMap);
+                const imagePromises = breedNames.map(async (breed) => {
+                    const path = breedMap[breed];
+                    console.log(path)
+                    const res = await fetch(`https://dog.ceo/api/breed/${path}/images/random`);
+                    const data = await res.json();
+                    return {
+                        id: breed,
+                        name: breed,
+                        image: data.message,
+                    };
+                });
+                const dogCards = await Promise.all(imagePromises);
+                setCards(dogCards);
+            } catch (error) {
+                console.error('Failed to fetch plant data:', error);
+            }
+        }
         
-    //     fetchImages();
-    // }, []);
+        fetchImages();
+    }, []);
     
     const resetGame = () => {
         setScore(0);
         setClickedCards([]);
-        setCards([1, 2, 3, 4, 5]);
+        // setCards([1, 2, 3, 4, 5]);
+        // fetchImages();
     }
 
-    if (clickedCards.length === cards.length) {
+    if (clickedCards.length === cards.length && clickedCards.length !== 0) {
         setBestScore(cards.length);
         alert("You win!");
         resetGame();
@@ -78,7 +80,7 @@ const Game = () => {
 
     return (
         <div className="game">
-            Game Components
+            Memory Game
             <ScoreBoard score={score} bestScore={bestScore} />
             <CardContainer cards={cards} onCardClick={handleCardClick} />
         </div>

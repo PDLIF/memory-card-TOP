@@ -1,5 +1,9 @@
 .scoreboard {
-    width: 10rem;
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+
+    padding-inline: 2rem;
 
     border: 1px solid;
     border-radius: 1rem;
