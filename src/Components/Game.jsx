@@ -59,6 +59,7 @@ const Game = () => {
         setScore(0);
         setBestScore(0);
         setClickedCards(0);
+        setRoundsWon(0);
         fetchImages();
     }
 
@@ -91,6 +92,10 @@ const Game = () => {
         }
     }
 
+    const handleCloseMessage = () => {
+        restartGame();
+    }
+
     return (
         <div className="game">
             <h1>Dog Memory Game</h1>
@@ -99,7 +104,7 @@ const Game = () => {
             <CardContainer cards={cards} onCardClick={handleCardClick} />
             {/* <button onClick={restartGame}>asd</button> */}
             {isGameOver && (
-                <EndgameMessage isWin={isWin} restartGame={restartGame} />
+                <EndgameMessage isWin={isWin} restartGame={restartGame} handleCloseMessage={handleCloseMessage} />
             )}
         </div>
     )
