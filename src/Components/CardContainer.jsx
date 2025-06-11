@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from "react";
 import Card from "./Card";
-import '../style/CardContainer.css'
+import '../style/CardContainer.css';
 
 const CardContainer = ({cards, onCardClick}) => {
 

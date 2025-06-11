@@ -7,8 +7,15 @@ const Card = ({ card, onCardClick }) => {
     return (
         <Tilt className="custom-tilt" tiltReverse={true} glareEnable={true} glareBorderRadius={'1rem'}>
             <div className="card" onClick={() => onCardClick(card)}>
-                <img src={card.image} alt="" />
-                <p>{card.name}</p>
+                <div className="card-inner">
+                    <div className="card-front">
+                        <img src={card.image} alt="" />
+                        <p className="bg-black-transp">{card}</p>
+                    </div>
+                    <div className="card-back">
+                        {card}
+                    </div>
+                </div>
             </div>
         </Tilt>
     )

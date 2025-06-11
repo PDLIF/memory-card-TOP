@@ -21,31 +21,32 @@ const Game = () => {
     }, []);
 
     async function fetchImages() {
-        try {
-            const breedMap = {
-                "Akita": "akita",
-                "Golden Retriever": "retriever/golden",
-                "Chow": "chow",
-                "Corgi": "corgi",
-                "Airedale": "airedale",
-            }
-            const breedNames = Object.keys(breedMap);
-            const imagePromises = breedNames.map(async (breed) => {
-                const path = breedMap[breed];
-                console.log(path)
-                const res = await fetch(`https://dog.ceo/api/breed/${path}/images/random`);
-                const data = await res.json();
-                return {
-                    id: breed,
-                    name: breed,
-                    image: data.message,
-                };
-            });
-            const dogCards = await Promise.all(imagePromises);
-            setCards(dogCards);
-        } catch (error) {
-            console.error('Failed to fetch plant data:', error);
-        }
+        // try {
+        //     const breedMap = {
+        //         "Akita": "akita",
+        //         "Golden Retriever": "retriever/golden",
+        //         "Chow": "chow",
+        //         "Corgi": "corgi",
+        //         "Airedale": "airedale",
+        //     }
+        //     const breedNames = Object.keys(breedMap);
+        //     const imagePromises = breedNames.map(async (breed) => {
+        //         const path = breedMap[breed];
+        //         console.log(path)
+        //         const res = await fetch(`https://dog.ceo/api/breed/${path}/images/random`);
+        //         const data = await res.json();
+        //         return {
+        //             id: breed,
+        //             name: breed,
+        //             image: data.message,
+        //         };
+        //     });
+        //     const dogCards = await Promise.all(imagePromises);
+        //     setCards(dogCards);
+        // } catch (error) {
+        //     console.error('Failed to fetch plant data:', error);
+        // }
+        setCards([1, 2])
     }
     
     const resetGame = () => {
