@@ -10,7 +10,7 @@ const Game = () => {
     const [bestScore, setBestScore] = useState(0);
     const [clickedCards, setClickedCards] = useState([]);
     const [cards, setCards] = useState([]);
-    const [cardsShowing, setCardsShowing] = useState(true);
+    const [cardsFlipped, setCardsFlipped] = useState(false);
 
     const [roundsWon, setRoundsWon] = useState(0);
 
@@ -75,8 +75,12 @@ const Game = () => {
         const newClicked = [...clickedCards, id];
         setClickedCards(newClicked);
         setScore(score + 1);
+        
+        setCardsFlipped(true);
+        setTimeout(() => setCardsFlipped(false), 1000);
+        
         shuffleCards(cards);
-
+        
         // Lose condition
         if (clickedCards.includes(id)) {
             if (score > bestScore) setBestScore(score);
@@ -106,7 +110,7 @@ const Game = () => {
             <h1>Dog Memory Game</h1>
             <ScoreBoard score={score} bestScore={bestScore} />
             <h2>{roundsWon} / 5</h2>
-            <CardContainer cards={cards} onCardClick={handleCardClick} />
+            <CardContainer cards={cards} onCardClick={handleCardClick} cardsFlipped={cardsFlipped} />
             {isGameOver && (
                 <EndgameMessage isWin={isWin} restartGame={restartGame} handleCloseMessage={handleCloseMessage} />
             )}
