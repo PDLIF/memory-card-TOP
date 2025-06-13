@@ -90,7 +90,7 @@ const Game = () => {
             setIsWin(true);
         }
         // Managing intermediate rounds win
-        if (newClicked.length === cards.length && clickedCards.length !== 0) {
+        else if (newClicked.length === cards.length && clickedCards.length !== 0) {
             setBestScore(cards.length);
             setRoundsWon(roundsWon + 1);
             resetGame();
