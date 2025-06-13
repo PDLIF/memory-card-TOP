@@ -77,9 +77,9 @@ const Game = () => {
         setScore(score + 1);
         
         setCardsFlipped(true);
-        setTimeout(() => setCardsFlipped(false), 1000);
         
-        shuffleCards(cards);
+        setTimeout(() => shuffleCards(cards), 1000);
+        setTimeout(() => setCardsFlipped(false), 1000);
         
         // Lose condition
         if (clickedCards.includes(id)) {
