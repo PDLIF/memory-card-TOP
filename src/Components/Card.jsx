@@ -4,15 +4,14 @@ import '../style/Card.css';
 
 import backIMG from '../assets/back.jpg';
 
-const Card = ({ card, onCardClick, cardsShowing, setCardsShowing }) => {
-
-    console.log(cardsShowing)
+const Card = ({ card, onCardClick }) => {
 
     return (
-        <Tilt className={`card-container ${cardsShowing ? '' : 'flipped'}`}
+        <Tilt className={`card-container`}
          tiltReverse={true}
          glareEnable={true}
          glareBorderRadius={'1rem'}
+         onClick={() => setCardsShowing(false)}
          >
             <div className="card" onClick={() => onCardClick(card)}>
                 <div className="card-front">

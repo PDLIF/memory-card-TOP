@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from "react";
-import CardContainer from "./CardContainer";
+import CardContainer from "./CardsContainer";
 import ScoreBoard from "./ScoreBoard";
 import EndgameMessage from "./EndGameMessage";
 
@@ -106,7 +106,7 @@ const Game = () => {
             <h1>Dog Memory Game</h1>
             <ScoreBoard score={score} bestScore={bestScore} />
             <h2>{roundsWon} / 5</h2>
-            <CardContainer cards={cards} onCardClick={handleCardClick} cardsShowing={cardsShowing} setCardsShowing={setCardsShowing} />
+            <CardContainer cards={cards} onCardClick={handleCardClick} />
             {isGameOver && (
                 <EndgameMessage isWin={isWin} restartGame={restartGame} handleCloseMessage={handleCloseMessage} />
             )}

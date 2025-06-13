@@ -6,7 +6,12 @@
 
     transform-style: preserve-3d;
     transition: transform 0.85s;
-    animation: flip-card 2s;
+    animation: flip-card-1 2s;
+}
+
+.card.flipped {
+    transition: transform 0.85s;
+    animation: flip-card-2 2s;
 }
 
 .card-front,
@@ -66,7 +71,17 @@ img {
     object-fit: cover;
 }
 
-@keyframes flip-card {
+@keyframes flip-card-1 {
+    from {
+      transform: rotateY(180deg);
+      pointer-events: none;
+    }
+    to {
+      transform: rotateY(0deg);
+    }
+  }
+
+@keyframes flip-card-2 {
     from {
       transform: rotateY(180deg);
       pointer-events: none;

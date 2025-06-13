@@ -5,9 +5,9 @@ import '../style/CardContainer.css';
 const CardContainer = ({ cards, onCardClick, cardsShowing, setCardsShowing }) => {
 
     return (
-        <div className="card-container">
+        <div className="cards-container">
             {cards.map((card, index) => (
-                <Card key={index} card={card} onCardClick={onCardClick} cardsShowing={cardsShowing} setCardsShowing={setCardsShowing} />
+                <Card key={index} card={card} onCardClick={onCardClick} />
             ))}
         </div>
     )
