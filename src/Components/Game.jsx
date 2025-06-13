@@ -60,7 +60,7 @@ const Game = () => {
         setIsGameOver(false)
         setScore(0);
         setBestScore(0);
-        setClickedCards(0);
+        setClickedCards([]);
         setRoundsWon(0);
         fetchImages();
     }
@@ -77,20 +77,23 @@ const Game = () => {
         setScore(score + 1);
         shuffleCards(cards);
 
+        // Lose condition
         if (clickedCards.includes(id)) {
             if (score > bestScore) setBestScore(score);
             setIsGameOver(true);
             setIsWin(false)
             resetGame();
         }
+        // Win condition
+        if (newClicked.length === cards.length && roundsWon + 1 === 2) {
+            setIsGameOver(true);
+            setIsWin(true);
+        }
+        // Managing intermediate rounds win
         if (newClicked.length === cards.length && clickedCards.length !== 0) {
             setBestScore(cards.length);
             setRoundsWon(roundsWon + 1);
             resetGame();
-        } 
-        if (roundsWon + 1 === 5) {
-            setIsGameOver(true);
-            setIsWin(true);
         }
     }
 
