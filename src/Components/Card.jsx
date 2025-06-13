@@ -6,11 +6,20 @@ import backIMG from '../assets/back.jpg';
 
 const Card = ({ card, onCardClick, cardsFlipped }) => {
 
+    const ANIMATION_TIME = 850;
+    const [interactable, setInteractable] = useState(false);
+  
+    useEffect(() => {
+        setTimeout(() => setInteractable(true), ANIMATION_TIME);
+    }, []);
+
     return (
-        <Tilt className={`card-container ${cardsFlipped ? 'flipped' : ''}`}
+        <Tilt className={`card-container ${cardsFlipped ? 'flipped' : ''} ${!cardsFlipped && interactable ? undefined : "pointer-events-none"}`}
          tiltReverse={true}
          glareEnable={true}
          glareBorderRadius={'1rem'}
+         glareMaxOpacity={0.3}
+         glarePosition="all"
          >
             <div className={`card`} onClick={() => onCardClick(card.id)}>
                 <div className="card-front">

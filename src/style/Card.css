@@ -77,7 +77,7 @@ img {
 @keyframes flip-card {
     from {
       transform: rotateY(180deg);
-      pointer-events: none;
+      /* pointer-events: none; */
     }
     to {
       transform: rotateY(0deg);

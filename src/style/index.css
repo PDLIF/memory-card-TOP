@@ -104,6 +104,10 @@ body {
     gap: var(--gap, 1rem);
 }
 
+.pointer-events-none {
+    pointer-events: none;
+}
+
 /* colors */
 
 .bg-dark { background-color: hsl( var(--clr-dark) ); }
