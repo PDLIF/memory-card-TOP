@@ -10,6 +10,7 @@ const Game = () => {
     const [bestScore, setBestScore] = useState(0);
     const [clickedCards, setClickedCards] = useState([]);
     const [cards, setCards] = useState([]);
+    const [cardsShowing, setCardsShowing] = useState(true);
 
     const [roundsWon, setRoundsWon] = useState(0);
 
@@ -21,32 +22,32 @@ const Game = () => {
     }, []);
 
     async function fetchImages() {
-        // try {
-        //     const breedMap = {
-        //         "Akita": "akita",
-        //         "Golden Retriever": "retriever/golden",
-        //         "Chow": "chow",
-        //         "Corgi": "corgi",
-        //         "Airedale": "airedale",
-        //     }
-        //     const breedNames = Object.keys(breedMap);
-        //     const imagePromises = breedNames.map(async (breed) => {
-        //         const path = breedMap[breed];
-        //         console.log(path)
-        //         const res = await fetch(`https://dog.ceo/api/breed/${path}/images/random`);
-        //         const data = await res.json();
-        //         return {
-        //             id: breed,
-        //             name: breed,
-        //             image: data.message,
-        //         };
-        //     });
-        //     const dogCards = await Promise.all(imagePromises);
-        //     setCards(dogCards);
-        // } catch (error) {
-        //     console.error('Failed to fetch plant data:', error);
-        // }
-        setCards([1, 2])
+        try {
+            const breedMap = {
+                "Akita": "akita",
+                "Golden Retriever": "retriever/golden",
+                "Chow": "chow",
+                "Corgi": "corgi",
+                "Airedale": "airedale",
+            }
+            const breedNames = Object.keys(breedMap);
+            const imagePromises = breedNames.map(async (breed) => {
+                const path = breedMap[breed];
+                console.log(path)
+                const res = await fetch(`https://dog.ceo/api/breed/${path}/images/random`);
+                const data = await res.json();
+                return {
+                    id: breed,
+                    name: breed,
+                    image: data.message,
+                };
+            });
+            const dogCards = await Promise.all(imagePromises);
+            setCards(dogCards);
+        } catch (error) {
+            console.error('Failed to fetch plant data:', error);
+        }
+        // setCards([1, 2]);
     }
     
     const resetGame = () => {
@@ -102,8 +103,7 @@ const Game = () => {
             <h1>Dog Memory Game</h1>
             <ScoreBoard score={score} bestScore={bestScore} />
             <h2>{roundsWon} / 5</h2>
-            <CardContainer cards={cards} onCardClick={handleCardClick} />
-            {/* <button onClick={restartGame}>asd</button> */}
+            <CardContainer cards={cards} onCardClick={handleCardClick} cardsShowing={cardsShowing} setCardsShowing={setCardsShowing} />
             {isGameOver && (
                 <EndgameMessage isWin={isWin} restartGame={restartGame} handleCloseMessage={handleCloseMessage} />
             )}
