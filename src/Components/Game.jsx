@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from "react";
 import CardContainer from "./CardsContainer";
 import ScoreBoard from "./ScoreBoard";
-import EndgameMessage from "./EndGameMessage";
+import EndgameMessage from "./EndgameMessage";
 
 import '../style/Game.css';
 
