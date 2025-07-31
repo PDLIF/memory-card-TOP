@@ -47,7 +47,6 @@ const Game = () => {
         } catch (error) {
             console.error('Failed to fetch plant data:', error);
         }
-        // setCards([1, 2]);
     }
     
     const resetGame = () => {
@@ -58,6 +57,7 @@ const Game = () => {
 
     const restartGame = () => {
         setIsGameOver(false)
+        setCardsFlipped(false);
         setScore(0);
         setBestScore(0);
         setClickedCards([]);
@@ -79,26 +79,33 @@ const Game = () => {
         setCardsFlipped(true);
         
         setTimeout(() => shuffleCards(cards), 800);
-        setTimeout(() => setCardsFlipped(false), 850);
         
         // Lose condition
         if (clickedCards.includes(id)) {
             if (score > bestScore) setBestScore(score);
+            setCardsFlipped(true);
             setIsGameOver(true);
             setIsWin(false)
             resetGame();
+            return
         }
         // Win condition
         if (newClicked.length === cards.length && roundsWon + 1 === 2) {
+            setCardsFlipped(true);
             setIsGameOver(true);
             setIsWin(true);
+            return
         }
         // Managing intermediate rounds win
         else if (newClicked.length === cards.length && clickedCards.length !== 0) {
+            setTimeout(() => setCardsFlipped(false), 850);
             setBestScore(cards.length);
             setRoundsWon(roundsWon + 1);
             resetGame();
+            return
         }
+
+        setTimeout(() => setCardsFlipped(false), 850);
     }
 
     const handleCloseMessage = () => {
@@ -109,7 +116,7 @@ const Game = () => {
         <div className="game">
             <h1>Dog Memory Game</h1>
             <ScoreBoard score={score} bestScore={bestScore} />
-            <h2>{roundsWon} / 5</h2>
+            <h2>{roundsWon} / 2</h2>
             <CardContainer cards={cards} onCardClick={handleCardClick} cardsFlipped={cardsFlipped} />
             {isGameOver && (
                 <EndgameMessage isWin={isWin} restartGame={restartGame} handleCloseMessage={handleCloseMessage} />
